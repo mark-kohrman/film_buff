@@ -5,7 +5,10 @@ class Api::MoviesController < ApplicationController
   end
 
   def show
-    @movie = Movie.find_by(id: params[:id])
+    response = HTTP.get("http://www.omdbapi.com/?t=Step?Brothers&apikey=#{Rails.application.credentials.movie_api[:api_key]}")
+    response.parse
+    @movie = response.parse
+    
     render 'show.json.jb'
   end
 end
