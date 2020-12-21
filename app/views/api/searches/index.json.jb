@@ -5,6 +5,7 @@
   director: search.director,
   release_year: search.release_year,
   description: search.description,
+  img_url: search.img_url,
   thumbs_up: search.thumbs_up,
   thumbs_down: search.thumbs_down
 
