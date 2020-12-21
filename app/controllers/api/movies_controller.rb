@@ -5,7 +5,7 @@ class Api::MoviesController < ApplicationController
   end
 
   def show
-    response = HTTP.get("http://www.omdbapi.com/?t=Step?Brothers&apikey=#{Rails.application.credentials.movie_api[:api_key]}")
+    response = HTTP.get("http://www.omdbapi.com/?apikey=#{Rails.application.credentials.movie_api[:api_key]}&t=social&network")
     response.parse
     @movie = response.parse
     
