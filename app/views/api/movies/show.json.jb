@@ -6,4 +6,6 @@
   runtime: @movie["Runtime"],
   description: @movie["Plot"],
   img_url: @movie["Poster"],
+  thumbs_up: @movie[:thumbs_up],
+  thumbs_down: @movie[:thumbs_down]
 }
