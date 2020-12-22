@@ -1,9 +1,8 @@
 @searches.map do |search|{
 
+  id: search["imdbID"],
   title: search["Title"],
-  director: search["Director"],
   release_year: search["Year"],
-  description: search["Plot"],
   img_url: search["Poster"],
 
 }
