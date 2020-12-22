@@ -1,13 +1,10 @@
 @searches.map do |search|{
 
-  id: search.id,
-  title: search.title,
-  director: search.director,
-  release_year: search.release_year,
-  description: search.description,
-  img_url: search.img_url,
-  thumbs_up: search.thumbs_up,
-  thumbs_down: search.thumbs_down
+  title: search["Title"],
+  director: search["Director"],
+  release_year: search["Year"],
+  description: search["Plot"],
+  img_url: search["Poster"],
 
 }
 end

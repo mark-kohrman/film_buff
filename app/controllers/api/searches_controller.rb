@@ -1,6 +1,12 @@
 class Api::SearchesController < ApplicationController
   def index
-    @searches = Search.all
+    movie_title = params[:title]
+    movie_title = movie_title.parameterize(separator: '?')
+    response = HTTP.get("http://www.omdbapi.com/?apikey=#{Rails.application.credentials.movie_api[:api_key]}&s=#{movie_title}")
+    
+    searched_movie = response.parse
+    @searches = searched_movie["Search"]
+
     render 'index.json.jb'
   end
 
