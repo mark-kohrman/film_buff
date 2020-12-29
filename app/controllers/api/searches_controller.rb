@@ -1,8 +1,9 @@
 class Api::SearchesController < ApplicationController
+  skip_before_action :verify_authenticity_token
   def index
-    movie_title = params[:title]
-    movie_title = movie_title.parameterize(separator: '?')
-    response = HTTP.get("http://www.omdbapi.com/?apikey=#{Rails.application.credentials.movie_api[:api_key]}&s=#{movie_title}")
+    title = params[:title]
+    title = title.parameterize(separator: '?')
+    response = HTTP.get("http://www.omdbapi.com/?apikey=#{Rails.application.credentials.movie_api[:api_key]}&s=#{title}")
     
     searched_movie = response.parse
     @searches = searched_movie["Search"]
