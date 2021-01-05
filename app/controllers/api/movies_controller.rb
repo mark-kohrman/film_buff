@@ -1,35 +1,17 @@
 class Api::MoviesController < ApplicationController
   def index
-    @movies = Movie.all
+    @movies = Movie.where("(thumbs_up) > 0").or(Movie.where("(thumbs_down) > 0"))
     render 'index.json.jb'
   end
 
-  def show
-    imbd_id = params[:id]
+  def create
+    
+  end
 
-    response = HTTP.get("http://www.omdbapi.com/?apikey=#{Rails.application.credentials.movie_api[:api_key]}&i=#{imbd_id}")
-    response.parse
-    @movie = response.parse
-    saved_movie = Movie.find_by(id: params[:id])
-    p saved_movie
-    p "SAVED*********"
-    if saved_movie
-      @movie = saved_movie
-    else
-      added_movie = Movie.create(
-        title: @movie["Title"],
-        director: @movie["Director"],
-        release_year: @movie["Year"],
-        runtime: @movie["Runtime"],
-        description: @movie["Plot"],
-        img_url: @movie["Poster"],
-        thumbs_up: 0,
-        thumbs_down: 0
-      )
-    end
+  def destroy
+    @movie = Movie.find_by(id: params[:id])
+    @movie.destroy
 
-    p added_movie
-
-    render 'show.json.jb'
+    render json: {message: "Your movie has been successfully destroyed!"}
   end
 end

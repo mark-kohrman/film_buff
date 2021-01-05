@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   namespace :api do
     get "/movies" => "movies#index"
     get "/movies/:id" => "movies#show"
+    delete "/movies/:id" => "movies#destroy"
+
     
     post "/searches" => "searches#index"
     get "/searches/:id" => "searches#show"
