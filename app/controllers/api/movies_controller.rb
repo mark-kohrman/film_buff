@@ -55,19 +55,15 @@ class Api::MoviesController < ApplicationController
   end
 
   def update
-  
-    if params[:thumb] == "1"
-      @movie = Movie.find_by(id: params[:id])
-      @movie = Movie.update(
-        thumbs_up: params[:new],
-      )
-    elsif params[:thumb] == "0"
-      @movie = Movie.find_by(id: params[:id])
-      @movie = Movie.update(
-        thumbs_down: params[:new],
-      )
-    end
 
+    if params[:thumb] == "up"
+      @movie = Movie.find(params[:id])
+      @movie.update_attributes(thumbs_up: @movie.thumbs_up + 1)
+    elsif params[:thumb] == "down"
+      @movie = Movie.find(params[:id])
+      @movie.update_attributes(thumbs_down: @movie.thumbs_down + 1)
+    end
+  
 
     render 'show.json.jb'
 
