@@ -32,14 +32,14 @@ class Api::MoviesController < ApplicationController
   end
 
   def update
-    @movie = Movie.find_by(id: params[:id])
+    @movie = Movie.find_by(imdb_id: params[:imdb_id])
 
     if params[:thumb] == "up"
-      @movie = Movie.find_by(id: params[:id])
+      @movie = Movie.find_by(imdb_id: params[:id])
       p @movie
       @movie.update_attributes(thumbs_up: @movie.thumbs_up + 1)
     elsif params[:thumb] == "down"
-      @movie = Movie.find(params[:id])
+      @movie = Movie.find_by(imdb_id: params[:id])
       @movie.update_attributes(thumbs_down: @movie.thumbs_down + 1)
     end
   

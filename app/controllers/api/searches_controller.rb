@@ -12,12 +12,13 @@ class Api::SearchesController < ApplicationController
   end
 
   def show
-    imbd_id = params[:id]
+    imdb_id = params[:id]
     
-    response = HTTP.get("http://www.omdbapi.com/?apikey=#{Rails.application.credentials.movie_api[:api_key]}&i=#{imbd_id}")
+    response = HTTP.get("http://www.omdbapi.com/?apikey=#{Rails.application.credentials.movie_api[:api_key]}&i=#{imdb_id}")
     response.parse
     @search = response.parse
-    saved_movie = Movie.find_by(id: params[:id])
+    saved_movie = Movie.find_by(imdb_id: imdb_id)
+    p saved_movie
     if saved_movie
       @movie = saved_movie
     else
@@ -28,7 +29,6 @@ class Api::SearchesController < ApplicationController
         runtime: @search["Runtime"],
         description: @search["Plot"],
         imdb_id: @search["imdbID"],
-
         img_url: @search["Poster"],
         thumbs_up: 0,
         thumbs_down: 0

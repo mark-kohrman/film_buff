@@ -1,5 +1,4 @@
 {
-  id: @movie.id,
   thumbs_up: @movie.thumbs_up,
   thumbs_down: @movie.thumbs_down
 }
