@@ -4,31 +4,7 @@ class Api::MoviesController < ApplicationController
     @movies = Movie.where("(thumbs_up) > 0").or(Movie.where("(thumbs_down) > 0"))
     render 'index.json.jb'
   end
-  def show
-    imbd_id = params[:id]
 
-    response = HTTP.get("http://www.omdbapi.com/?apikey=#{Rails.application.credentials.movie_api[:api_key]}&i=#{imbd_id}")
-    response.parse
-    @movie = response.parse
-    saved_movie = Movie.find_by(id: params[:id])
-    p saved_movie
-    if saved_movie
-      @movie = saved_movie
-    else
-      added_movie = Movie.create(
-        title: @movie["Title"],
-        director: @movie["Director"],
-        release_year: @movie["Year"],
-        runtime: @movie["Runtime"],
-        description: @movie["Plot"],
-        img_url: @movie["Poster"],
-        thumbs_up: 0,
-        thumbs_down: 0
-      )
-    end
-
-    render 'show.json.jb'
-  end
 
   def create
     if !Movie.find_by(id: params[:id])
@@ -42,6 +18,7 @@ class Api::MoviesController < ApplicationController
         runtime: new_movie["Runtime"],
         description: new_movie["Plot"],
         img_url: new_movie["Poster"],
+        imdb_id: new_movie["imdbID"],
         thumbs_up: 0,
         thumbs_down: 0
       )
@@ -55,9 +32,11 @@ class Api::MoviesController < ApplicationController
   end
 
   def update
+    @movie = Movie.find_by(id: params[:id])
 
     if params[:thumb] == "up"
-      @movie = Movie.find(params[:id])
+      @movie = Movie.find_by(id: params[:id])
+      p @movie
       @movie.update_attributes(thumbs_up: @movie.thumbs_up + 1)
     elsif params[:thumb] == "down"
       @movie = Movie.find(params[:id])

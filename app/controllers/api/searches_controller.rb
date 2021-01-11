@@ -18,7 +18,6 @@ class Api::SearchesController < ApplicationController
     response.parse
     @search = response.parse
     saved_movie = Movie.find_by(id: params[:id])
-    p saved_movie
     if saved_movie
       @movie = saved_movie
     else
@@ -28,14 +27,18 @@ class Api::SearchesController < ApplicationController
         release_year: @search["Year"],
         runtime: @search["Runtime"],
         description: @search["Plot"],
+        imdb_id: @search["imdbID"],
+
         img_url: @search["Poster"],
         thumbs_up: 0,
         thumbs_down: 0
       )
-    end
-    p "*" * 44 + "NEW"
+      p added_movie
 
-    p added_movie
+    end
+
+
+
 
     render 'show.json.jb'
   end
