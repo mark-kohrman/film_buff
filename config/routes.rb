@@ -17,4 +17,7 @@ Rails.application.routes.draw do
 
 
   end
+
+  root 'application#index'
+  get '/*path', to: 'application#index'
 end
