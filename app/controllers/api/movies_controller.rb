@@ -1,7 +1,10 @@
 class Api::MoviesController < ApplicationController
   skip_before_action :verify_authenticity_token
   def index
-    @movies = Movie.where("(thumbs_up) > 0").or(Movie.where("(thumbs_down) > 0"))
+    raw_movies = Movie.where("(thumbs_up) > 0").or(Movie.where("(thumbs_down) > 0"))
+
+    @movies =  raw_movies.order('thumbs_up DESC')
+
     render 'index.json.jb'
   end
 
